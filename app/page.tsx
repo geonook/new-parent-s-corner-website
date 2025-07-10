@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import { ENGLISH_CONTENT } from '@/lib/constants'
+import EnhancedInteractionButton from '@/components/EnhancedInteractionButton'
+import InteractiveCard from '@/components/InteractiveCard'
 
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null)
@@ -59,22 +61,24 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.8 }}
             >
-              <Link 
+              <EnhancedInteractionButton 
                 href="/resources"
-                className="group inline-flex items-center px-8 py-4 bg-white text-primary-600 rounded-xl font-semibold text-lg hover:bg-primary-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                variant="primary"
+                icon={
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                }
               >
                 Explore Resources
-                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
+              </EnhancedInteractionButton>
               
-              <Link 
+              <EnhancedInteractionButton 
                 href="/events"
-                className="inline-flex items-center px-8 py-4 border-2 border-white text-white rounded-xl font-semibold text-lg hover:bg-white hover:text-primary-600 transition-all duration-300"
+                variant="secondary"
               >
                 View Events
-              </Link>
+              </EnhancedInteractionButton>
             </motion.div>
           </div>
         </motion.div>
@@ -170,62 +174,55 @@ export default function HomePage() {
                 href: "/pacing-guides",
                 title: "Pacing Guides",
                 description: "Access curriculum guides for all grades and English levels",
-                icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                ),
                 delay: 0
               },
               {
                 href: "/id-squads",
                 title: "ID Squads",
                 description: "Learn about our 14 student squads promoting teamwork",
-                icon: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                ),
                 delay: 0.1
               },
               {
                 href: "/events",
                 title: "Events",
                 description: "Coffee with Principal and parent engagement activities",
-                icon: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                ),
                 delay: 0.2
               },
               {
                 href: "/contact",
                 title: "Contact",
                 description: "Get in touch with us at ext. 8130",
-                icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z",
+                icon: (
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                ),
                 delay: 0.3
               }
             ].map((item, index) => (
-              <motion.div
+              <InteractiveCard
                 key={item.href}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: item.delay }}
-                viewport={{ once: true }}
-              >
-                <Link href={item.href} className="block">
-                  <motion.div 
-                    className="card h-full p-8 text-center bg-white border-2 border-gray-100"
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: "0 20px 40px -12px rgba(0, 0, 0, 0.15)",
-                      borderColor: "#9007e0"
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.div 
-                      className="w-16 h-16 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-6"
-                      whileHover={{ scale: 1.1, backgroundColor: "#9007e0" }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                      </svg>
-                    </motion.div>
-                    <h3 className="text-xl font-semibold mb-4 text-gray-900">{item.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                  </motion.div>
-                </Link>
-              </motion.div>
+                href={item.href}
+                title={item.title}
+                description={item.description}
+                icon={item.icon}
+                delay={item.delay}
+              />
             ))}
           </div>
         </div>
