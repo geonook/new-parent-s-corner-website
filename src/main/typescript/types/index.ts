@@ -1,4 +1,4 @@
-// Common types for the application
+// Common types for the ES International Department website
 
 export interface NewsItem {
   id: string;
@@ -23,25 +23,41 @@ export interface Attachment {
   mimeType: string;
 }
 
-export interface Course {
+// English Pacing Guide structure
+export interface PacingGuide {
+  id: string;
+  grade: 1 | 2 | 3;
+  level: 'E1' | 'E2' | 'E3';
+  title: string;
+  fileUrl: string;
+  updatedAt: Date;
+  isActive: boolean;
+}
+
+// English ID Squad structure
+export interface Squad {
   id: string;
   name: string;
   description: string;
-  grade: string;
-  schedule: string;
-  instructor: string;
+  values: string[];
+  color: string;
+  icon?: string;
 }
 
-export interface Activity {
+// English Event structure
+export interface Event {
   id: string;
   title: string;
   description: string;
   date: Date;
-  location: string;
+  location?: string;
+  type: 'coffee-principal' | 'parent-engagement' | 'other';
+  feedbackEnabled: boolean;
   registrationRequired: boolean;
   registrationDeadline?: Date;
 }
 
+// English Newsletter structure
 export interface Newsletter {
   id: string;
   title: string;
@@ -49,6 +65,20 @@ export interface Newsletter {
   year: number;
   pdfUrl: string;
   coverImageUrl?: string;
+  publishedAt: Date;
+  featured: boolean;
+}
+
+// English Resource structure
+export interface Resource {
+  id: string;
+  title: string;
+  description: string;
+  type: 'pdf' | 'link' | 'video' | 'document';
+  url: string;
+  category: 'reading-buddies' | 'readworks' | 'literacy' | 'transition' | 'summer';
+  grade?: number;
+  featured: boolean;
 }
 
 export interface User {
@@ -74,4 +104,31 @@ export interface PaginatedResponse<T> {
     total: number;
     totalPages: number;
   };
+}
+
+// English content structure
+export interface EnglishContent {
+  home: {
+    welcomeMessage: string;
+    newsletterNote: string;
+  };
+  pacingGuides: {
+    description: string;
+    note: string;
+  };
+  idSquads: {
+    description: string;
+    conclusion: string;
+  };
+  contact: {
+    message: string;
+    extension: string;
+  };
+}
+
+// Navigation structure
+export interface NavigationItem {
+  name: string;
+  href: string;
+  children?: NavigationItem[];
 }
