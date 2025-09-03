@@ -14,10 +14,13 @@ KCISLK Parents' Corner 是一個**對外公開的展示網站**，專為康橋�
 ### Microservice Architecture | 微服務架構
 ```
 Zeabur Project: KCISLK ESID
-├── 🏢 landing-app-v2 (Internal Management)
-│   └── URL: https://kcislk-esid.zeabur.app
+├── 🏢 es-international-department (Internal Management)
+│   ├── URL: https://kcislk-esid.zeabur.app
+│   └── Port: 3001 (Development)
 ├── 🌍 parents-corner (Public Service) ← This Repository
-│   └── URL: https://kcislk-esid-parents.zeabur.app
+│   ├── URL: https://kcislk-esid-parents.zeabur.app
+│   ├── Port: 3002 (Development)
+│   └── GitHub: https://github.com/geonook/new-parent-s-corner-website
 └── 🗄️ Shared PostgreSQL Database
 ```
 
@@ -95,7 +98,8 @@ docker run -p 8080:8080 -e DATABASE_URL="your_db_url" kcislk-parents-corner
 
 ### Zeabur Deployment | Zeabur 部署
 1. **Create New Service** | 建立新服務
-   - Connect this repository to Zeabur | 將此儲存庫連接到 Zeabur
+   - Repository: `https://github.com/geonook/new-parent-s-corner-website` | GitHub 儲存庫
+   - Service name: `parents-corner` | 服務名稱
    - Set domain: `kcislk-esid-parents.zeabur.app` | 設定域名
 
 2. **Environment Variables** | 環境變數
@@ -162,7 +166,20 @@ For technical support or questions about this service:
 
 - 📧 Email: esid@kangchiao.com.tw
 - 📱 Phone: (02) 8195-8852
-- 🐛 Issues: [GitHub Issues](https://github.com/your-org/kcislk-parents-corner/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/geonook/new-parent-s-corner-website/issues)
+
+---
+
+## 🐞 Known Issues | 已知問題
+
+- **Missing placeholder.svg**: The homepage references `/placeholder.svg` which doesn't exist. This causes a 404 error but doesn't affect functionality. | 首頁引用的 `/placeholder.svg` 不存在，會產生 404 錯誤但不影響功能。
+- **No public directory**: The public directory needs to be created for static assets. | 需要創建 public 目錄來存放靜態資源。
+
+## 📌 Current Status | 當前狀態
+
+- **Development**: ✅ Running on http://localhost:3002 | 開發環境運行於 http://localhost:3002
+- **GitHub**: ✅ Pushed to https://github.com/geonook/new-parent-s-corner-website | 已推送至 GitHub
+- **Zeabur**: ⏳ Ready for deployment | 準備部署
 
 ---
 
