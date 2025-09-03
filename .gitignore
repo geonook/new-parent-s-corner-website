@@ -1,4 +1,5 @@
 # KCISLK Parents' Corner - Git ignore file
+# KCISLK Parents' Corner 微服務 - Git 忽略文件
 
 # Dependencies
 /node_modules
