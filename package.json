@@ -9,10 +9,27 @@
     "lint": "next lint",
     "start": "next start -p 8080",
     "db:generate": "prisma generate",
+    
+    "build:development": "NODE_ENV=development npm run db:generate && npm run build",
+    "build:staging": "NODE_ENV=staging npm run db:generate && npm run build", 
     "build:production": "NODE_ENV=production npm run db:generate && npm run build",
+    
+    "dev:staging": "NODE_ENV=staging next dev -p 3002",
+    "dev:production": "NODE_ENV=production next dev -p 3002",
+    
+    "deploy:staging": "NODE_ENV=staging npm run db:generate && npm run start",
+    "deploy:production": "NODE_ENV=production npm run db:generate && npm run start",
+    
     "zeabur:build": "npm run db:generate && npm run build",
     "zeabur:start": "npm run start",
     "zeabur:deploy": "npm run db:generate && npm run start",
+    "zeabur:build:staging": "NODE_ENV=staging npm run zeabur:build",
+    "zeabur:build:production": "NODE_ENV=production npm run zeabur:build",
+    
+    "env:switch:development": "cp .env.development .env.local",
+    "env:switch:staging": "cp .env.staging .env.local",
+    "env:switch:production": "cp .env.production .env.local",
+    
     "clean": "rm -rf .next out dist build",
     "typecheck": "tsc --noEmit",
     "test": "echo \"No tests specified\" && exit 0"

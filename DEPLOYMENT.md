@@ -21,57 +21,112 @@ graph TD
 
 ## 📍 Service Details | 服務詳情
 
-| Service | Repository | Development Port | Production URL |
-|---------|------------|------------------|----------------|
-| **Main Application** | [es-international-department](https://github.com/geonook/es-international-department) | 3001 | https://kcislk-esid.zeabur.app |
-| **Parents' Corner** | [new-parent-s-corner-website](https://github.com/geonook/new-parent-s-corner-website) | 3002 | https://kcislk-esid-parents.zeabur.app |
+| Service | Repository | Development Port | Staging URL | Production URL |
+|---------|------------|------------------|-------------|----------------|
+| **Main Application** | [es-international-department](https://github.com/geonook/es-international-department) | 3001 | https://kcislk-esid-staging.zeabur.app | https://kcislk-esid.zeabur.app |
+| **Parents' Corner** | [new-parent-s-corner-website](https://github.com/geonook/new-parent-s-corner-website) | 3002 | https://kcislk-esid-parents-staging.zeabur.app | https://kcislk-esid-parents.zeabur.app |
+
+## 🌍 Multi-Environment Architecture | 多環境架構
+
+### Environment Strategy | 環境策略
+
+```mermaid
+graph TB
+    A[Developer] --> B[Development Environment]
+    B --> C[Staging Environment]
+    C --> D[Production Environment]
+    
+    B --> |Port 3002| B1[localhost:3002]
+    C --> |Auto Deploy| C1[kcislk-esid-parents-staging.zeabur.app]
+    D --> |Manual Deploy| D1[kcislk-esid-parents.zeabur.app]
+```
+
+### Database Configuration per Environment | 各環境資料庫配置
+
+| Environment | Database Port | Usage | Auto-Deploy |
+|-------------|---------------|-------|-------------|
+| **Development** | 32718 | Local development & testing | ❌ |
+| **Staging** | 30592 | Pre-production validation | ✅ |
+| **Production** | 32312 | Live public service | ❌ (Manual) |
 
 ## 🚀 Zeabur Deployment Steps | Zeabur 部署步驟
 
-### Step 1: Create New Service | 步驟 1：創建新服務
+### Step 1: Create Services for Each Environment | 步驟 1：為各環境創建服務
 
+#### Staging Service | 預備環境服務
 1. **Login to Zeabur Console** | 登入 Zeabur 控制台
-   - Navigate to your KCISLK ESID project | 導航到 KCISLK ESID 專案
+2. **Add Staging Service** | 新增預備環境服務
+   ```
+   Service Name: parents-corner-staging
+   Service Type: Git
+   Repository: https://github.com/geonook/new-parent-s-corner-website
+   Branch: main (or develop branch)
+   Auto Deploy: Enable
+   ```
 
-2. **Add New Service** | 新增服務
+#### Production Service | 正式環境服務  
+1. **Add Production Service** | 新增正式環境服務
    ```
    Service Name: parents-corner
    Service Type: Git
    Repository: https://github.com/geonook/new-parent-s-corner-website
    Branch: main
+   Auto Deploy: Disable (Manual control)
    ```
 
-3. **Configure Build Settings** | 配置建置設定
+2. **Configure Build Settings** | 配置建置設定
    ```
    Build Command: Automatic (Docker detected)
-   Port: 8080 (Production)
+   Port: 8080 (Both environments)
    ```
 
 ### Step 2: Environment Variables | 步驟 2：環境變數
 
-Add these environment variables in Zeabur console | 在 Zeabur 控制台新增這些環境變數:
+Configure environment variables for each service | 為各服務配置環境變數:
 
+#### Staging Environment Variables | 預備環境變數
 ```env
-# Database Connection (Shared with main app)
-DATABASE_URL=postgresql://[username]:[password]@[host]:5432/[database_name]
+# Database Connection (Staging)
+DATABASE_URL=postgresql://[username]:[password]@tpe1.clusters.zeabur.com:30592/zeabur
+
+# Application Settings
+NODE_ENV=staging
+NEXT_PUBLIC_APP_URL=https://kcislk-esid-parents-staging.zeabur.app
+
+# Staging Specific
+PRISMA_LOG_LEVEL=warn
+NEXT_TELEMETRY_DISABLED=1
+```
+
+#### Production Environment Variables | 正式環境變數
+```env
+# Database Connection (Production)  
+DATABASE_URL=postgresql://[username]:[password]@tpe1.clusters.zeabur.com:32312/zeabur
 
 # Application Settings
 NODE_ENV=production
 NEXT_PUBLIC_APP_URL=https://kcislk-esid-parents.zeabur.app
 
-# Optional: Prisma Logging
-PRISMA_LOG_LEVEL=warn
+# Production Specific
+PRISMA_LOG_LEVEL=error
+NEXT_TELEMETRY_DISABLED=1
 ```
 
 ### Step 3: Domain Configuration | 步驟 3：域名配置
 
-1. **Custom Domain** | 自定義域名
-   ```
-   Domain: kcislk-esid-parents.zeabur.app
-   ```
+#### Staging Domain | 預備環境域名
+```
+Service: parents-corner-staging
+Domain: kcislk-esid-parents-staging.zeabur.app
+SSL: Auto-provisioned
+```
 
-2. **SSL Certificate** | SSL 證書
-   - Automatically provisioned by Zeabur | Zeabur 自動提供
+#### Production Domain | 正式環境域名
+```
+Service: parents-corner
+Domain: kcislk-esid-parents.zeabur.app  
+SSL: Auto-provisioned
+```
 
 ### Step 4: Database Connection | 步驟 4：資料庫連接
 
@@ -160,15 +215,64 @@ Expected Response | 預期響應:
    - Known issue: Missing public directory | 已知問題：缺少 public 目錄
    - Solution: Create public folder and add assets | 解決方案：創建 public 資料夾並添加資源
 
+## 🔄 Local Environment Management | 本地環境管理
+
+### Quick Environment Switching | 快速環境切換
+
+```bash
+# Switch to Development
+npm run env:switch:development
+
+# Switch to Staging  
+npm run env:switch:staging
+
+# Switch to Production
+npm run env:switch:production
+```
+
+### Build for Specific Environment | 特定環境建置
+
+```bash
+# Development Build
+npm run build:development
+
+# Staging Build
+npm run build:staging
+
+# Production Build  
+npm run build:production
+```
+
+### Development with Different Environments | 不同環境開發
+
+```bash
+# Standard Development (port 3002)
+npm run dev
+
+# Staging Environment Development
+npm run dev:staging
+
+# Production Environment Development
+npm run dev:production
+```
+
 ## 📝 Deployment Checklist | 部署檢查清單
 
-Before deploying to production | 部署到生產環境前:
-
-- [ ] Environment variables configured | 環境變數已配置
-- [ ] Database connection tested | 資料庫連接已測試
+### Staging Environment | 預備環境
+- [ ] Environment variables configured for staging | 預備環境變數已配置
+- [ ] Database connection to staging DB tested | 預備環境資料庫連接已測試  
 - [ ] Health check endpoint working | 健康檢查端點正常工作
-- [ ] Custom domain configured | 自定義域名已配置
+- [ ] Staging domain configured | 預備環境域名已配置
 - [ ] SSL certificate active | SSL 證書已啟用
+- [ ] Auto-deploy enabled | 自動部署已啟用
+
+### Production Environment | 正式環境
+- [ ] Environment variables configured for production | 正式環境變數已配置
+- [ ] Database connection to production DB tested | 正式環境資料庫連接已測試
+- [ ] Health check endpoint working | 健康檢查端點正常工作
+- [ ] Production domain configured | 正式環境域名已配置
+- [ ] SSL certificate active | SSL 證書已啟用
+- [ ] Auto-deploy disabled (manual control) | 自動部署已關閉（手動控制）
 - [ ] Monitoring alerts set up | 監控警報已設定
 - [ ] Backup strategy in place | 備份策略已就位
 
